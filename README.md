@@ -1,69 +1,80 @@
-# 🐱 Proyecto: Tic-Tac-Toe (Juego del Gato)
-
+🐱 Proyecto: Tic-Tac-Toe (Juego del Gato)
 Este es un proyecto universitario para la materia de Programación Dinámica. Es una implementación del clásico juego "Tic-Tac-Toe" desarrollado en C++ y ejecutado en la consola.
 
-El programa cumple con todos los requisitos básicos del juego, permitiendo a dos jugadores competir en una misma terminal.
+El programa ha sido mejorado para incluir un menú principal, múltiples modos de juego y un oponente de IA (CPU).
 
-## 🎓 Información Académica
+🎓 Información Académica
+Materia: Programación Dinámica
 
-- **Materia:** Programación Dinámica
-- **Docente:** Dr. Herman Geovany Ayala Zúñiga
-- **Alumno:** Wolfang Arturo García Méndez
+Docente: Dr. Herman Geovany Ayala Zúñiga
 
----
+Alumno: Wolfang Arturo García Méndez
 
-## 🚀 Características
+🚀 Características
+Menú Principal Interactivo: Un menú en consola para navegar entre los modos de juego o salir.
 
-- **Juego de 2 Jugadores:** Permite a dos jugadores (X y O) competir por turnos.
-- **Detección de Ganador:** El sistema identifica automáticamente una victoria por fila, columna o diagonal.
-- **Detección de Empate:** El juego termina en empate si el tablero se llena sin un ganador.
-- **Validación de Entradas:** El programa previene jugadas inválidas:
-  - No permite ingresar letras o símbolos (solo números).
-  - No permite elegir casillas fuera del rango (1-9).
-  - No permite sobrescribir una casilla ya ocupada.
-- **Código Modular:** El código está organizado en funciones para una fácil lectura y mantenimiento.
-- **Ligero:** No requiere librerías externas, solo la biblioteca estándar de C++ (`iostream` y `limits`).
+Dos Modos de Juego:
 
----
+Humano vs. Humano: El modo clásico para que dos jugadores compitan en la misma terminal.
 
-## ⚙️ ¿Cómo compilar y ejecutar?
+Humano vs. CPU: ¡Reta a la máquina! El jugador humano (X) se enfrenta a una IA (O).
 
-Este programa está escrito en C++ estándar.
+IA (CPU) Sencilla: El CPU opera con una lógica de 3 pasos para decidir su movimiento:
 
-### Requisitos
+Ganar: Si tiene un movimiento para ganar, lo toma.
 
-- Un compilador de C++ (como G++, Clang, o el compilador de Visual Studio).
+Bloquear: Si el jugador está a punto de ganar, lo bloquea.
 
-### 1\. Compilación (Línea de Comandos)
+Aleatorio: Si no puede ganar ni bloquear, elige una casilla al azar.
 
-Abre una terminal, navega a la carpeta donde se encuentra el archivo `main.cpp` y ejecuta:
+Detección de Ganador y Empate: El sistema identifica automáticamente una victoria por fila, columna o diagonal, así como los empates.
 
-```bash
-# Compilar el programa
-g++ main.cpp -o TicTacToe
-```
+Validación de Entradas: El programa previene jugadas inválidas (letras, números fuera de rango, casillas ocupadas).
 
-_(Si tu archivo se llama diferente, reemplaza `main.cpp`)_
+Código Modular: El código está organizado en funciones claras (mostrarMenu, jugarPartidaPvP, jugarPartidaCPU, realizarJugadaCPU, etc.).
 
-### 2\. Ejecución
+⚙️ ¿Cómo compilar y ejecutar?
+Este programa está escrito en C++ moderno y utiliza características del estándar C++11.
 
-Una vez compilado, puedes ejecutar el juego:
+Requisitos
+Un compilador de C++ (como G++, Clang, o el compilador de Visual Studio).
 
-- **En Windows:**
-  ```bash
-  .\TicTacToe.exe
-  ```
-- **En macOS/Linux:**
-  ```bash
-  ./TicTacToe
-  ```
+El compilador debe ser compatible con C++11 o superior (debido al uso de <thread> y <chrono> para la pausa de la IA).
 
----
+1. Compilación (Línea de Comandos)
+   Abre una terminal, navega a la carpeta donde se encuentra el archivo main.cpp y ejecuta:
 
-## 🎮 ¿Cómo jugar?
+Bash
 
-1.  Al iniciar el programa, se mostrará un tablero vacío con casillas numeradas del 1 al 9.
-2.  El Jugador 1 (X) comienza.
-3.  Ingresa el número de la casilla donde deseas colocar tu 'X' y presiona `Enter`.
-4.  El tablero se actualizará y será el turno del Jugador 2 (O).
-5.  El juego continúa hasta que un jugador gane o el tablero se llene (empate).
+# Compilar el programa (requiere C++11)
+
+g++ -std=c++11 main.cpp -o TicTacToe
+(Es posible que en algunos sistemas (como MinGW en Windows) necesites añadir -pthread si usas <thread>, aunque para sleep_for usualmente no es necesario).
+
+2. Ejecución
+   Una vez compilado, puedes ejecutar el juego:
+
+En Windows:
+
+Bash
+
+.\TicTacToe.exe
+En macOS/Linux:
+
+Bash
+
+./TicTacToe 3. Alternativa (Usando un IDE)
+Simplemente abre el proyecto en un IDE como Visual Studio 2022 (que ya soporta C++11 y superior por defecto) y presiona el botón de "Ejecutar" o "Depurar".
+
+🎮 ¿Cómo jugar?
+Al iniciar el programa, verás un menú principal.
+
+Escribe 1 para jugar (Humano vs. Humano) o 2 para jugar (Humano vs. CPU).
+
+Sigue las instrucciones en pantalla. Ingresa el número de la casilla (1-9) cuando sea tu turno.
+
+Si juegas contra el CPU, tú serás 'X' y el CPU será 'O'. El CPU se tomará un segundo para "pensar" su jugada.
+
+Al terminar la partida (victoria, derrota o empate), presiona Enter para volver al menú principal.
+
+Desde el menú, puedes iniciar una nueva partida o elegir 3 para salir del programa.
