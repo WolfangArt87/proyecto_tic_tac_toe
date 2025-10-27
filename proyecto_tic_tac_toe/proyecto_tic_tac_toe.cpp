@@ -8,7 +8,7 @@
 #include <iostream> // Para entrada (cin) y salida (cout)
 #include <limits>   // Para limpiar el buffer de entrada en caso de error
 
- // Constantes para el tablero y jugadores
+// Constantes para el tablero y jugadores
 const int TAMANO_TABLERO = 3;
 const char JUGADOR_X = 'X';
 const char JUGADOR_O = 'O';
@@ -31,7 +31,8 @@ void inicializarTablero(char tablero[TAMANO_TABLERO][TAMANO_TABLERO]) {
  * @param tablero El tablero de juego (const para no modificarlo).
  */
 void mostrarTablero(const char tablero[TAMANO_TABLERO][TAMANO_TABLERO]) {
-
+    // Imprimimos saltos de línea para simular una limpieza de pantalla
+    std::cout << "\n\n\n\n\n\n\n\n\n\n"; 
     std::cout << "  Proyecto Tic-Tac-Toe\n";
     std::cout << "     Jugador 1 (X) - Jugador 2 (O)\n";
     std::cout << std::endl;
@@ -73,9 +74,8 @@ bool realizarJugada(char tablero[TAMANO_TABLERO][TAMANO_TABLERO], char jugador) 
     }
 
     // Mapeo de la elección (1-9) a coordenadas de la matriz (fila, col)
-    // (eleccion - 1) nos da un índice de 0 a 8
-    int fila = (eleccion - 1) / TAMANO_TABLERO; // División entera da la fila (0, 1, o 2)
-    int col = (eleccion - 1) % TAMANO_TABLERO; // Módulo da la columna (0, 1, o 2)
+    int fila = (eleccion - 1) / TAMANO_TABLERO; 
+    int col = (eleccion - 1) % TAMANO_TABLERO; 
 
     // Validación de casilla: Asegura que no esté ocupada
     if (tablero[fila][col] == JUGADOR_X || tablero[fila][col] == JUGADOR_O) {
@@ -129,8 +129,7 @@ char verificarGanador(const char tablero[TAMANO_TABLERO][TAMANO_TABLERO]) {
 void cambiarJugador(char& jugadorActual) {
     if (jugadorActual == JUGADOR_X) {
         jugadorActual = JUGADOR_O;
-    }
-    else {
+    } else {
         jugadorActual = JUGADOR_X;
     }
 }
@@ -139,52 +138,71 @@ void cambiarJugador(char& jugadorActual) {
  * @brief Función principal que contiene el bucle del juego.
  */
 int main() {
-    char tablero[TAMANO_TABLERO][TAMANO_TABLERO];
-    char jugadorActual = JUGADOR_X;
-    char ganador = ' ';
-    int movimientos = 0;
-    bool juegoTerminado = false;
+    
+    char jugarDeNuevo; // Variable para controlar el reinicio
 
-    // 1. Preparar el juego
-    inicializarTablero(tablero);
+    do { // Bucle exterior para jugar de nuevo
+        
+        // --- INICIO DE RESET DE PARTIDA ---
+        // Se declaran aquí para reiniciarse en cada nueva partida.
+        char tablero[TAMANO_TABLERO][TAMANO_TABLERO];
+        char jugadorActual = JUGADOR_X;
+        char ganador = ' ';
+        int movimientos = 0;
+        bool juegoTerminado = false;
 
-    // 2. Bucle principal del juego
-    while (!juegoTerminado) {
-        // 2a. Mostrar tablero
-        mostrarTablero(tablero);
+        // 1. Preparar el juego
+        inicializarTablero(tablero);
+        // --- FIN DE RESET DE PARTIDA ---
 
-        // 2b. Pedir y validar jugada
-        // Bucle interno para reintentar si la jugada es inválida
-        while (!realizarJugada(tablero, jugadorActual)) {
-            // La función realizarJugada ya imprime el error
-            // Simplemente esperamos un momento para que el usuario lea
-        }
 
-        // 2c. Incrementar el contador de movimientos
-        movimientos++;
+        // 2. Bucle principal del juego (Bucle de una partida)
+        while (!juegoTerminado) {
+            // 2a. Mostrar tablero
+            mostrarTablero(tablero);
 
-        // 2d. Verificar si hay ganador
-        ganador = verificarGanador(tablero);
-        if (ganador != ' ') {
-            juegoTerminado = true;
-            mostrarTablero(tablero); // Mostrar el tablero final
-            std::cout << "¡FELICIDADES! El Jugador " << ganador << " ha ganado." << std::endl;
-        }
-        // 2e. Verificar si hay empate (si hay 9 movimientos y no hay ganador)
-        else if (movimientos == 9) {
-            juegoTerminado = true;
-            mostrarTablero(tablero); // Mostrar el tablero final
-            std::cout << "¡JUEGO TERMINADO! Es un empate." << std::endl;
-        }
-        // 2f. Si el juego no ha terminado, cambiar de jugador
-        else {
-            cambiarJugador(jugadorActual);
-        }
-    }
+            // 2b. Pedir y validar jugada
+            while (!realizarJugada(tablero, jugadorActual)) {
+                // La función realizarJugada ya imprime el error
+                // y limpiamos el buffer, así que solo reintentamos.
+            }
 
-    std::cout << "Gracias por jugar. Presiona Enter para salir." << std::endl;
-    std::cin.ignore(); // Limpia el buffer por si acaso
+            // 2c. Incrementar el contador de movimientos
+            movimientos++;
+
+            // 2d. Verificar si hay ganador
+            ganador = verificarGanador(tablero);
+            if (ganador != ' ') {
+                juegoTerminado = true;
+                mostrarTablero(tablero); // Mostrar el tablero final
+                std::cout << "¡FELICIDADES! El Jugador " << ganador << " ha ganado." << std::endl;
+            }
+            // 2e. Verificar si hay empate
+            else if (movimientos == 9) {
+                juegoTerminado = true;
+                mostrarTablero(tablero); // Mostrar el tablero final
+                std::cout << "¡JUEGO TERMINADO! Es un empate." << std::endl;
+            }
+            // 2f. Si el juego no ha terminado, cambiar de jugador
+            else {
+                cambiarJugador(jugadorActual);
+            }
+        } // Fin del bucle while (!juegoTerminado)
+
+        // 3. Preguntar si desea jugar de nuevo
+        std::cout << "\n¿Desean jugar de nuevo? (s/n): ";
+        std::cin >> jugarDeNuevo;
+
+        // Limpiamos el buffer para evitar que la siguiente
+        // lectura de std::cin falle si el usuario escribió "si" o algo más.
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+
+    } while (jugarDeNuevo == 's' || jugarDeNuevo == 'S'); // Condición de reinicio
+
+
+    // 4. Despedida final
+    std::cout << "\nGracias por jugar. Presiona Enter para salir." << std::endl;
     std::cin.get();    // Espera a que el usuario presione Enter
-
+    
     return 0; // El programa termina sin errores
 }
